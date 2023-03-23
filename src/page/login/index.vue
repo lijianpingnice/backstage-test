@@ -1,7 +1,7 @@
 <script setup>
 </script>
 
-<template></template>
+<template>登录</template>
 
 <style>
 </style>

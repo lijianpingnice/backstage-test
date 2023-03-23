@@ -1,7 +1,7 @@
 <script setup>
 </script>
 
-<template></template>
+<template>首页</template>
 
 <style>
 </style>
