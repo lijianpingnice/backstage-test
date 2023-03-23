@@ -29,3 +29,28 @@ function filterAsyncRoutes(routes = [], role) {
     })
     return ret
 }
+
+export const usePermissionStore = defineStore({
+    id: 'permission',
+    state: () => {
+        return {
+            accessRoutes: []
+        }
+    },
+    getters: {
+        routes() {
+            return [...basicRoutes, ...this.accessRoutes]
+        },
+        menus() {
+            return this.routes.filter(route => route.name && !route.isHidden)
+        }
+    },
+    actions: {
+        // 生成用户路由表
+        generateRoutes(role = []) {
+            const accseeRoutes = filterAsyncRoutes(asyncRoutes, role)
+            this.accseeRoutes = accseeRoutes
+            return accseeRoutes
+        }
+    }
+})
