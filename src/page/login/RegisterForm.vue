@@ -2,8 +2,12 @@
 import { reactive, ref } from 'vue';
 import { ElMessage } from 'element-plus';
 import { validatorPass, validatorAccountNumber } from '@/utils/validate';
+import { useRouter } from 'vue-router';
 
-const registerTitle = `${BASE_INFO.VITE_APP_TITLE}`;
+const registerTitle = `${import.meta.env.VITE_APP_TITLE}`;
+
+// 获取路由router
+const router = useRouter();
 
 const isRemember = ref(false);
 const loginForm = reactive({
