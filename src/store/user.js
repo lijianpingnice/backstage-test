@@ -6,5 +6,10 @@ export const useUserStore = defineStore({
         return {
             name: 'ljp'
         }
+    },
+    actions: {
+        updateName(name) {
+            this.name = name
+        }
     }
 })
