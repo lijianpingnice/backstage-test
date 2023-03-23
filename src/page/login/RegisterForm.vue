@@ -1,8 +1,11 @@
 <script setup>
+import { login } from '@/api/user';
 import { reactive, ref } from 'vue';
 import { ElMessage } from 'element-plus';
 import { validatorPass, validatorAccountNumber } from '@/utils/validate';
 import { useRouter } from 'vue-router';
+import { lStorage } from '@/utils/cache';
+import { setToken } from '@/utils/auth';
 
 const registerTitle = `${import.meta.env.VITE_APP_TITLE}`;
 
@@ -10,11 +13,19 @@ const registerTitle = `${import.meta.env.VITE_APP_TITLE}`;
 const router = useRouter();
 
 const isRemember = ref(false);
-const loginForm = reactive({
+const loginForm = ref({
     pass: '',
     accountNumber: '',
 });
 const loginFormRef = ref(null);
+initLoginInfo();
+function initLoginInfo() {
+    const localLoginInfo = lStorage.get('loginInfo');
+    if (localLoginInfo) {
+        loginForm.value.pass = localLoginInfo.pass || '';
+        loginForm.value.accountNumber = localLoginInfo.accountNumber || '';
+    }
+}
 const rules = reactive({
     pass: [{ validator: validatorPass, trigger: ['blur', 'change'] }],
     accountNumber: [
@@ -25,12 +36,13 @@ const submitForm = (formEl) => {
     if (!formEl) return;
     formEl.validate((valid) => {
         if (valid) {
-            console.log('submit!');
-            ElMessage({
-                message: 'submit!',
-                type: 'success',
-                duration: 3 * 1000,
-            });
+            // console.log('submit!');
+            // ElMessage({
+            //     message: 'submit!',
+            //     type: 'success',
+            //     duration: 3 * 1000,
+            // });
+            handleLogin();
         } else {
             console.log('error submit!');
             ElMessage({
@@ -42,6 +54,36 @@ const submitForm = (formEl) => {
         }
     });
 };
+
+async function handleLogin() {
+    const { accountNumber, pass } = loginForm.value;
+    if (!accountNumber || !pass) {
+        ElMessage({
+            message: '请输入账号和密码!',
+            type: 'error',
+            duration: 3 * 1000,
+        });
+        return;
+    }
+    try {
+        const res = await login({ accountNumber, pass });
+        if (res.code === 0) {
+            ElMessage.success('登录成功!');
+            setToken(res.data.token);
+            if (isRemember.value) {
+                lStorage.set('loginInfo', { accountNumber, pass });
+            } else {
+                lStorage.remove('loginInfo');
+            }
+            router.push('/');
+        } else {
+            ElMessage.warning(res.msg);
+        }
+    } catch (error) {
+        ElMessage.warning(error.msg);
+    }
+}
+
 const resetForm = (formEl) => {
     if (!formEl) return;
     formEl.resetFields();

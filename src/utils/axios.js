@@ -6,7 +6,8 @@ import { toLogin } from '@/utils/auth'
 axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
 const instance = axios.create({    //创建axios实例，在这里可以设置请求的默认配置
     // axios中请求配置有baseURL选项，表示请求URL公共部分
-    baseURL: BASE_INFO.VUE_APP_BASE_API,
+    //baseURL: import.meta.env.VITE_APP_BASE_API,
+    baseURL: import.meta.env.VITE_APP_BASE_API_TEST,
     // 超时
     timeout: 30000
 })
@@ -79,3 +80,4 @@ instance.interceptors.response.use(
         return Promise.reject(error)
     }
 )
+export default instance
