@@ -14,23 +14,21 @@ const router = useRouter();
 
 const isRemember = ref(false);
 const loginForm = ref({
-    pass: '',
-    accountNumber: '',
+    password: '',
+    name: '',
 });
 const loginFormRef = ref(null);
 initLoginInfo();
 function initLoginInfo() {
     const localLoginInfo = lStorage.get('loginInfo');
     if (localLoginInfo) {
-        loginForm.value.pass = localLoginInfo.pass || '';
-        loginForm.value.accountNumber = localLoginInfo.accountNumber || '';
+        loginForm.value.password = localLoginInfo.password || '';
+        loginForm.value.name = localLoginInfo.name || '';
     }
 }
 const rules = reactive({
-    pass: [{ validator: validatorPass, trigger: ['blur', 'change'] }],
-    accountNumber: [
-        { validator: validatorAccountNumber, trigger: ['blur', 'change'] },
-    ],
+    password: [{ validator: validatorPass, trigger: ['blur', 'change'] }],
+    name: [{ validator: validatorAccountNumber, trigger: ['blur', 'change'] }],
 });
 const submitForm = (formEl) => {
     if (!formEl) return;
@@ -56,8 +54,8 @@ const submitForm = (formEl) => {
 };
 
 async function handleLogin() {
-    const { accountNumber, pass } = loginForm.value;
-    if (!accountNumber || !pass) {
+    const { name, password } = loginForm.value;
+    if (!name || !password) {
         ElMessage({
             message: '请输入账号和密码!',
             type: 'error',
@@ -66,12 +64,12 @@ async function handleLogin() {
         return;
     }
     try {
-        const res = await login({ accountNumber, pass });
+        const res = await login({ name, password });
         if (res.code === 0) {
             ElMessage.success('登录成功!');
             setToken(res.data.token);
             if (isRemember.value) {
-                lStorage.set('loginInfo', { accountNumber, pass });
+                lStorage.set('loginInfo', { name, password });
             } else {
                 lStorage.remove('loginInfo');
             }
@@ -108,17 +106,17 @@ const resetForm = (formEl) => {
             label-width="90px"
             class="demo-loginForm"
         >
-            <el-form-item label="用户名" prop="accountNumber">
+            <el-form-item label="用户名" prop="name">
                 <el-input
-                    v-model="loginForm.accountNumber"
+                    v-model="loginForm.name"
                     type="text"
                     autocomplete="off"
                     placeholder="请输入用户名"
                 />
             </el-form-item>
-            <el-form-item label="密码" prop="pass">
+            <el-form-item label="密码" prop="password">
                 <el-input
-                    v-model="loginForm.pass"
+                    v-model="loginForm.password"
                     type="password"
                     autocomplete="off"
                     placeholder="请输入密码"

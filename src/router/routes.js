@@ -2,7 +2,7 @@ const routes = [
     {
         path: '/404',
         name: '404',
-        component: () => import('@/page/error/404.vue'),
+        component: () => import('@/page/error-page/404.vue'),
         isHidden: true,
     },
     {

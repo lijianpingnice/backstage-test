@@ -9,8 +9,8 @@ import VueSetupExtend from 'vite-plugin-vue-setup-extend'
 // rollup打包分析插件
 import visualizer from 'rollup-plugin-visualizer'
 
-import { configHtmlPlugin } from './html'
-import { unocss } from './unocss'
+// import { configHtmlPlugin } from './html'
+// import { unocss } from './unocss'
 
 /**
  * * 组件库按需引入插件
@@ -25,8 +25,8 @@ export function createVitePlugins(viteEnv, isBuild) {
     const plugins = [
         vue(),
         VueSetupExtend(),
-        configHtmlPlugin(viteEnv, isBuild),
-        unocss(),
+        // configHtmlPlugin(viteEnv, isBuild),
+        // unocss(),
         Components({
             resolvers: [NaiveUiResolver()],
         }),
