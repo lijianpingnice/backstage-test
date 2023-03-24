@@ -11,7 +11,7 @@ export function login(query) {
 // 获取用户信息
 export function getUser(query) {
     return request({
-        url: `/user`,
+        url: `/user/userIfo`,
         method: 'GET',
         data: query
     })

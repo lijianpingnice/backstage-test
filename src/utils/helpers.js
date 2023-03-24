@@ -1,4 +1,4 @@
-import { useUserStore } from '@/store/user'
+import { useUserStore } from '@/store/modules/user'
 
 const WITHOUT_TOKEN_API = [{ url: '/auth/login', method: 'POST' }]
 

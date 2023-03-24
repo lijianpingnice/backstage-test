@@ -27,7 +27,7 @@ function initLoginInfo() {
     }
 }
 const rules = reactive({
-    password: [{ validator: validatorPass, trigger: ['blur', 'change'] }],
+    // password: [{ validator: validatorPass, trigger: ['blur', 'change'] }],
     name: [{ validator: validatorAccountNumber, trigger: ['blur', 'change'] }],
 });
 const submitForm = (formEl) => {
@@ -75,10 +75,10 @@ async function handleLogin() {
             }
             router.push('/');
         } else {
-            ElMessage.warning(res.msg);
+            ElMessage.warning(res.message);
         }
     } catch (error) {
-        ElMessage.warning(error.msg);
+        ElMessage.warning(error);
     }
 }
 
@@ -120,6 +120,7 @@ const resetForm = (formEl) => {
                     type="password"
                     autocomplete="off"
                     placeholder="请输入密码"
+                    show-password
                 />
             </el-form-item>
             <el-form-item label="记住我" prop="isRemember">

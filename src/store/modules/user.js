@@ -26,7 +26,7 @@ export const useUserStore = defineStore({
     actions: {
         async getUserInfo() {
             try {
-                const res = await getuser()
+                const res = await getUser()
                 if (res.code === 0) {
                     const { id, name, avatar, role } = res.data
                     this.userInfo = { id, name, avatar, role }
@@ -44,5 +44,8 @@ export const useUserStore = defineStore({
         setUserInfo(userInfo = {}) {
             this.userInfo = { ...this.userInfo, ...userInfo }
         },
+    },
+    persist: {
+        enabled: true
     }
 })

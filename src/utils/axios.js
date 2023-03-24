@@ -44,7 +44,7 @@ instance.interceptors.response.use(
         let data = res.data
         const code = data.code
         if (code != undefined && code != null && code != '') {
-            msg = data.msg
+            msg = data.message
         } else {
             msg = errorCode['default']
         }

@@ -1,3 +1,4 @@
+import { ElMessage } from 'element-plus';
 // store中储存的user信息
 import { useUserStore } from '@/store/modules/user'
 // 获取用户的路由权限
@@ -40,7 +41,7 @@ export function createPermissionGuard(router) {
                         // 跳转到登录页
                         toLogin()
                         //显示报错信息
-                        $message.error(error.message || '获取用户信息失败！')
+                        ElMessage.error(error.message || '获取用户信息失败！')
                         //结束
                         return
                     })

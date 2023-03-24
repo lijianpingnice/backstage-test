@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie'
-import router from "../router";
+import { router } from "../router";
 import { lStorage } from './cache/index';
 
 const TokenKey = 'Admin-Token'

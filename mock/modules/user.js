@@ -23,7 +23,7 @@ const users = {
 }
 export default [
     {
-        url: '/api/user',
+        url: '/api/user/userIfo',
         method: 'get',
         response: ({ headers }) => {
             const token = resolveToken(headers?.authorization)

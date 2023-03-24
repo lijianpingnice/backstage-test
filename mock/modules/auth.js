@@ -12,11 +12,18 @@ export default [
         response: ({ body }) => {
             console.log(body)
             if (['admin', 'editor'].includes(body?.name)) {
-                return {
-                    code: 0,
-                    data: {
-                        token: token[body.name],
-                    },
+                if (body?.password === '123456') {
+                    return {
+                        code: 0,
+                        data: {
+                            token: token[body.name],
+                        },
+                    }
+                } else {
+                    return {
+                        code: -1,
+                        message: `密码错误${body?.password === '123456'}`,
+                    }
                 }
             } else {
                 return {
