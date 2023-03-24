@@ -1,15 +1,14 @@
 import { defineStore } from "pinia";
 import { asyncRoutes, basicRoutes } from '@/router/routes'
 
-//判断有没有页面访问权限
-
+//判断路由是否有访问权限设置
 function hasPermission(route, role) {
     const routeRole = route.meta?.role ? route.meta.role : []
     if (!role.length || !routeRole.length) return false
     return role.some((item) => routeRole.inclides(item))
 }
 
-// 获取用户有访问权限的完整路由表
+// 获取所有有访问权限的路由的表
 function filterAsyncRoutes(routes = [], role) {
     const ret = []
     routes.forEach(route => {

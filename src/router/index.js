@@ -1,9 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import routes from './routes'
+import { basicRoutes as routes } from './routes'
+import { setupRouterGuard } from './guard'
 
-const router = createRouter({
+export const router = createRouter({
   history: createWebHistory(),
   routes,
+  scrollBehavior: () => ({ left: 0, top: 0 }),
 })
 
-export default router
+export function setupRouter(app) {
+  app.use(router)
+  setupRouterGuard(router)
+}
