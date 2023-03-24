@@ -1,11 +1,6 @@
 <script setup>
-import { computed } from 'vue';
 import MenuItem from '@/components/LeftPanel/MenuItem.vue';
-import { asyncRoutes } from '@/router/routes';
-
-computed({
-    routes: asyncRoutes,
-});
+const props = defineProps(['routes']);
 </script>
 <template>
     <div class="left-panel-container">
@@ -18,7 +13,7 @@ computed({
             router
         >
             <MenuItem
-                v-for="route in routes"
+                v-for="route in props.routes"
                 :route="route"
                 :key="route.path"
             />

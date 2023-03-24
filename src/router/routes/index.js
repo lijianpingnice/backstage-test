@@ -1,4 +1,4 @@
-import Layout from '@/layout/index.vue'
+import layout from '@/layout/index.vue'
 // 静态路由
 export const basicRoutes = [
     {
@@ -19,9 +19,9 @@ export const basicRoutes = [
         isHidden: true,
     },
     {
-        path: '/',
-        component: Layout,
-        redirect: 'index',
+        path: '',
+        component: layout,
+        redirect: '/',
         children: [
             {
                 path: 'index',
@@ -41,7 +41,7 @@ export const NOT_FOUND_ROUTE = {
 }
 
 // modules文件夹下的路由都会作为动态路由
-const modules = import.meta.globEager('./modules/*.js')
+const modules = import.meta.globEager('../modules/*.js')
 const asyncRoutes = []
 Object.keys(modules).forEach((key) => {
     asyncRoutes.push(...modules[key].default)

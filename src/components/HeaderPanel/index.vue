@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { useUserStore } from '@/store/modules/user';
+const props = defineProps(['routes']);
 const activeIndex = ref(1);
 const userStore = useUserStore();
 const name = computed(() => userStore.name);
@@ -14,13 +15,21 @@ const avatar = computed(() => userStore.avatar);
                 class="el-menu-demo"
                 mode="horizontal"
                 :ellipsis="false"
+                router
             >
-                <el-menu-item index="0">LOGO</el-menu-item>
+                <el-menu-item index="index">LOGO</el-menu-item>
                 <div class="flex-grow" />
-                <el-menu-item index="1">Processing Center</el-menu-item>
-                <el-menu-item index="2">
-                    <template #title>Workspace</template>
-                </el-menu-item>
+                <el-menu-item index="index">首页</el-menu-item>
+                <template v-if="props.routes && props.routes.length > 0">
+                    <el-menu-item
+                        v-for="route in props.routes"
+                        :key="route.path"
+                        :index="route.path"
+                        >{{
+                            (route.meta || { title: route.path }).title
+                        }}</el-menu-item
+                    >
+                </template>
             </el-menu>
         </div>
 
@@ -44,7 +53,6 @@ const avatar = computed(() => userStore.avatar);
         </div>
     </div>
 </template>
-  
 <style lang="less" scoped>
 .flex-grow {
     width: 150px;
