@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue';
 import { useUserStore } from '@/store/modules/user';
 const props = defineProps(['routes']);
+console.log(props.routes);
 const activeIndex = ref(1);
 const userStore = useUserStore();
 const name = computed(() => userStore.name);

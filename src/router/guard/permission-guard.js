@@ -27,7 +27,7 @@ export function createPermissionGuard(router) {
             //判断是否是去登录页面
             if (to.path === '/login') {
                 // 如果是去登录页面,不做处理直接跳转
-                next({ path: '/' })
+                next()
             } else {
                 //如果不是去登录页面,尝试获取用户信息
                 if (userStore.userId) {

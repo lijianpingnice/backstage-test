@@ -1,20 +1,29 @@
 export default [
     {
-        path: 'text-page1',
-        component: () => import('@/layout/layoutMain.vue'),
-        name: 'text-page1',
-        meta: { title: 'text-page1' }
+        path: 'test-page/page1',
+        component: () => import('@/page/test-page/page1/index.vue'),
+        name: 'page1',
+        meta: {
+            title: '动态路由1',
+            role: ['admin'],
+        }
     },
     {
-        path: 'text-page2',
-        component: () => import('@/layout/layoutMain.vue'),
-        name: 'text-page2',
-        meta: { title: 'text-page2' }
+        path: 'test-page/page2',
+        component: () => import('@/page/test-page/page2/index.vue'),
+        name: 'page2',
+        meta: {
+            title: '动态路由2',
+            role: ['admin'],
+        }
     },
     {
-        path: 'text-page3',
-        component: () => import('@/layout/layoutMain.vue'),
-        name: 'text-page3',
-        meta: { title: 'text-page3' }
+        path: 'test-page/page3',
+        component: () => import('@/page/test-page/page3/index.vue'),
+        name: 'page3',
+        meta: {
+            title: '动态路由3',
+            role: ['admin'],
+        }
     },
 ]

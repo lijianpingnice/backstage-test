@@ -19,15 +19,15 @@ export const basicRoutes = [
         isHidden: true,
     },
     {
-        path: '',
+        path: '/',
         component: layout,
-        redirect: '/',
+        redirect: 'index',
         children: [
             {
                 path: 'index',
                 component: () => import('@/page/index/index.vue'),
                 name: 'Index',
-                meta: { title: '首页' }
+                meta: { title: '首页', role: ['admin'], }
             }
         ]
     }
