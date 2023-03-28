@@ -12,15 +12,15 @@ import { toLogin } from '@/utils/auth'
 
 // 路由白名单
 const WHITE_LIST = ['/login']
-let hasInitAuth = true
+let registerRouteFresh = true
 // 创建路由权限守卫方法
 export function createPermissionGuard(router) {
     //取store的user信息
     const userStore = useUserStore()
-    //获取用户路由权限
-    const permissionStore = usePermissionStore()
     //路由跳转前判断权限
     router.beforeEach(async (to, from, next) => {
+        console.log(router.getRoutes())
+        console.log('to')
         //获取token
         const token = getToken()
         //判断有没有token
@@ -32,8 +32,15 @@ export function createPermissionGuard(router) {
             } else {
                 //如果不是去登录页面,尝试获取用户信息
                 if (userStore.userId) {
-                    // 已经拿到用户信息,直接跳转
-                    next()
+                    if (registerRouteFresh) {
+                        console.log('registerRouteFresh')
+                        await initRouter(router)
+                        registerRouteFresh = false
+                        next({ ...to, replace: true })
+                    } else {
+                        console.log('next')
+                        next()
+                    }
                 } else {
                     // 如果在store拿不到用户信息,重新调用store里的获取用户信息方法
                     await userStore.getUserInfo().then().catch((error) => {
@@ -48,21 +55,14 @@ export function createPermissionGuard(router) {
                     })
                     // 获取路由表
                     if (userStore) {
-                        const accessRoutes = await permissionStore.generateRoutes(userStore.role)
-                        if (hasInitAuth) {
-                            // 遍历路由表
-                            accessRoutes.forEach((route) => {
-                                // 判断有没有这个路由地址如果没有就添加
-                                !router.hasRoute(route.name) && router.addRoute(route)
-                            })
-                            hasInitAuth = false
-                            // 添加404路由地址
-                            router.addRoute(NOT_FOUND_ROUTE)
-                            //router.push({ ...to, replace: true })
+                        if (registerRouteFresh) {
+                            await initRouter(router)
+                            registerRouteFresh = false
                             next({ ...to, replace: true })
                         } else {
                             next()
                         }
+
                     }
                 }
             }
@@ -77,4 +77,17 @@ export function createPermissionGuard(router) {
             }
         }
     })
+}
+
+export const initRouter = async (router) => {
+    //取store的user信息
+    const userStore = useUserStore()
+    //获取用户路由权限
+    const permissionStore = usePermissionStore()
+    const accessRoutes = await permissionStore.generateRoutes(userStore.role)
+    accessRoutes.forEach((route) => {
+        // 判断有没有这个路由地址如果没有就添加
+        !router.hasRoute(route.name) && router.addRoute(route)
+    })
+    router.addRoute(NOT_FOUND_ROUTE)
 }

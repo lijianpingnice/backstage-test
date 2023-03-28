@@ -1,5 +1,4 @@
 <script setup>
-import { onMounted } from 'vue';
 import LayoutMain from '@/layout/layoutMain.vue';
 import { useRouter } from 'vue-router';
 const router = useRouter();
