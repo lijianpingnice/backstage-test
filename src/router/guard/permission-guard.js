@@ -12,6 +12,7 @@ import { toLogin } from '@/utils/auth'
 
 // 路由白名单
 const WHITE_LIST = ['/login']
+let hasInitAuth = true
 // 创建路由权限守卫方法
 export function createPermissionGuard(router) {
     //取store的user信息
@@ -48,14 +49,20 @@ export function createPermissionGuard(router) {
                     // 获取路由表
                     if (userStore) {
                         const accessRoutes = await permissionStore.generateRoutes(userStore.role)
-                        // 遍历路由表
-                        accessRoutes.forEach((route) => {
-                            // 判断有没有这个路由地址如果没有就添加
-                            !router.hasRoute(route.name) && router.addRoute(route)
-                        })
-                        // 添加404路由地址
-                        router.addRoute(NOT_FOUND_ROUTE)
-                        next({ ...to, replace: true })
+                        if (hasInitAuth) {
+                            // 遍历路由表
+                            accessRoutes.forEach((route) => {
+                                // 判断有没有这个路由地址如果没有就添加
+                                !router.hasRoute(route.name) && router.addRoute(route)
+                            })
+                            hasInitAuth = false
+                            // 添加404路由地址
+                            router.addRoute(NOT_FOUND_ROUTE)
+                            //router.push({ ...to, replace: true })
+                            next({ ...to, replace: true })
+                        } else {
+                            next()
+                        }
                     }
                 }
             }

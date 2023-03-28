@@ -2,20 +2,31 @@
 import { ref, computed, toRaw } from 'vue';
 import { useUserStore } from '@/store/modules/user';
 import usePermissionStore from '@/store/modules/permission';
+import { sStorage } from '@/utils/cache';
+// 回到登录页方法
+import { toLogin, removeToken } from '@/utils/auth';
+
 const permissionStore = usePermissionStore();
 const myMenus = computed(() => {
     let list = [];
     permissionStore.menus.forEach((e) => {
         list.push(toRaw(e));
     });
-    console.log(list);
     return list;
 });
-console.log(myMenus);
 const activeIndex = ref('1');
 const userStore = useUserStore();
 const name = computed(() => userStore.name);
 const avatar = computed(() => userStore.avatar);
+
+function logout() {
+    // 清空token
+    removeToken();
+    // 清空sessionStorage
+    sStorage.clear();
+    // 跳转到登录页
+    toLogin();
+}
 </script>
 <template>
     <div class="header-panel-container">
@@ -59,8 +70,9 @@ const avatar = computed(() => userStore.avatar);
                 <template #dropdown>
                     <el-dropdown-menu>
                         <el-dropdown-item>个人中心</el-dropdown-item>
-                        <el-dropdown-item>切换账号</el-dropdown-item>
-                        <el-dropdown-item>退出登录</el-dropdown-item>
+                        <el-dropdown-item @click="logout"
+                            >退出登录</el-dropdown-item
+                        >
                     </el-dropdown-menu>
                 </template>
             </el-dropdown>
