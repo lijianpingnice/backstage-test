@@ -23,7 +23,7 @@ const users = {
 }
 const userRouters = JSON.stringify([
     {
-        path: '',
+        path: '/',
         component: 'Layout',
         redirect: 'page1',
         meta: {
@@ -55,7 +55,7 @@ const userRouters = JSON.stringify([
         ]
     },
     {
-        path: '',
+        path: '/',
         component: 'Layout',
         redirect: 'page3',
         meta: {
@@ -87,7 +87,7 @@ const userRouters = JSON.stringify([
         ]
     },
     {
-        path: '',
+        path: '/',
         component: 'Layout',
         redirect: 'page2',
         meta: {
