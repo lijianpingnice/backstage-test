@@ -16,3 +16,12 @@ export function getUser(query) {
         data: query
     })
 }
+
+// 获取用户路由表
+export function getRouters(query) {
+    return request({
+        url: `/user/getRouterList`,
+        method: 'GET',
+        data: query
+    })
+}

@@ -10,7 +10,6 @@ export default [
         url: '/api/auth/login',
         method: 'post',
         response: ({ body }) => {
-            console.log(body)
             if (['admin', 'editor'].includes(body?.name)) {
                 if (body?.password === '123456') {
                     return {

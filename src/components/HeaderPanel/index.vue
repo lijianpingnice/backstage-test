@@ -1,9 +1,18 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, toRaw } from 'vue';
 import { useUserStore } from '@/store/modules/user';
-const props = defineProps(['routes']);
-console.log(props.routes);
-const activeIndex = ref(1);
+import usePermissionStore from '@/store/modules/permission';
+const permissionStore = usePermissionStore();
+const myMenus = computed(() => {
+    let list = [];
+    permissionStore.menus.forEach((e) => {
+        list.push(toRaw(e));
+    });
+    console.log(list);
+    return list;
+});
+console.log(myMenus);
+const activeIndex = ref('1');
 const userStore = useUserStore();
 const name = computed(() => userStore.name);
 const avatar = computed(() => userStore.avatar);
@@ -21,13 +30,17 @@ const avatar = computed(() => userStore.avatar);
                 <el-menu-item index="index">LOGO</el-menu-item>
                 <div class="flex-grow" />
                 <el-menu-item index="index">首页</el-menu-item>
-                <template v-if="props.routes && props.routes.length > 0">
+                <template v-if="myMenus && myMenus.length > 0">
                     <el-menu-item
-                        v-for="route in props.routes"
-                        :key="route.path"
-                        :index="route.path"
+                        v-for="route in myMenus"
+                        :key="route.children[0].path"
+                        :index="route.children[0].path"
                         >{{
-                            (route.meta || { title: route.path }).title
+                            (
+                                route.children[0].meta || {
+                                    title: route.children[0].path,
+                                }
+                            ).title
                         }}</el-menu-item
                     >
                 </template>

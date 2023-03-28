@@ -1,4 +1,4 @@
-import layout from '@/layout/index.vue'
+import Layout from '@/layout/index.vue'
 // 静态路由
 export const basicRoutes = [
     {
@@ -12,7 +12,7 @@ export const basicRoutes = [
         name: 'Login',
         component: () => import('@/page/login/index.vue'),
         meta: {
-            title: '登陆',
+            title: '登录',
             keepAlive: true,
             requireAuth: false
         },
@@ -20,7 +20,7 @@ export const basicRoutes = [
     },
     {
         path: '/',
-        component: layout,
+        component: Layout,
         redirect: 'index',
         children: [
             {

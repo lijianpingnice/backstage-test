@@ -2,7 +2,7 @@ import { ElMessage } from 'element-plus';
 // store中储存的user信息
 import { useUserStore } from '@/store/modules/user'
 // 获取用户的路由权限
-import { usePermissionStore } from '@/store/modules/permission'
+import usePermissionStore from '@/store/modules/permission'
 // 跳转到404
 import { NOT_FOUND_ROUTE } from '@/router/routes'
 // 获取token方法 删除token方法
@@ -35,7 +35,7 @@ export function createPermissionGuard(router) {
                     next()
                 } else {
                     // 如果在store拿不到用户信息,重新调用store里的获取用户信息方法
-                    await userStore.getUserInfo().catch((error) => {
+                    await userStore.getUserInfo().then().catch((error) => {
                         // 如果获取失败删除token
                         removeToken()
                         // 跳转到登录页
@@ -46,15 +46,17 @@ export function createPermissionGuard(router) {
                         return
                     })
                     // 获取路由表
-                    const accessRoutes = permissionStore.generateRoutes(userStore.role)
-                    // 遍历路由表
-                    accessRoutes.forEach((route) => {
-                        // 判断有没有这个路由地址如果没有就添加
-                        !router.hasRoute(route.name) && router.addRoute(route)
-                    })
-                    // 添加404路由地址
-                    router.addRoute(NOT_FOUND_ROUTE)
-                    next({ ...to, replace: true })
+                    if (userStore) {
+                        const accessRoutes = await permissionStore.generateRoutes(userStore.role)
+                        // 遍历路由表
+                        accessRoutes.forEach((route) => {
+                            // 判断有没有这个路由地址如果没有就添加
+                            !router.hasRoute(route.name) && router.addRoute(route)
+                        })
+                        // 添加404路由地址
+                        router.addRoute(NOT_FOUND_ROUTE)
+                        next({ ...to, replace: true })
+                    }
                 }
             }
         } else {

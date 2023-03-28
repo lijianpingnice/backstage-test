@@ -1,11 +1,10 @@
 <script setup>
 import { RouterView } from 'vue-router';
-import { asyncRoutes } from '@/router/routes';
 import HeaderPanel from '@/components/HeaderPanel/index.vue';
 </script>
 <template>
     <el-container>
-        <el-header><HeaderPanel :routes="asyncRoutes" /></el-header>
+        <el-header><HeaderPanel /></el-header>
         <el-main><RouterView /></el-main>
     </el-container>
 </template>
