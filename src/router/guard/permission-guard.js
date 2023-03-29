@@ -32,15 +32,7 @@ export function createPermissionGuard(router) {
             } else {
                 //如果不是去登录页面,尝试获取用户信息
                 if (userStore.userId) {
-                    if (registerRouteFresh) {
-                        console.log('registerRouteFresh')
-                        await initRouter(router)
-                        registerRouteFresh = false
-                        next({ ...to, replace: true })
-                    } else {
-                        console.log('next')
-                        next()
-                    }
+                    next()
                 } else {
                     // 如果在store拿不到用户信息,重新调用store里的获取用户信息方法
                     await userStore.getUserInfo().then().catch((error) => {
